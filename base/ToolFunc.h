@@ -8,19 +8,9 @@
 namespace myth52125
 {
 
+#define debugmsg(result,msg) if(result != 1) std::cout<<msg<<" in "<<__FILE__<<__func__<<__LINE__<<std::endl; 
 
 
-
-inline void  notZeroErr(int i,const std::string &errmsg)
-{
-	if(i != 0)
-	{
-		std::cout<<"err in file :"<<__FILE__<<" line : "<<__LINE__<<" function :  "
-			<<__func__<<", msg : "<<errmsg<<std::endl;
-
-	}
-
-}
 
 
 

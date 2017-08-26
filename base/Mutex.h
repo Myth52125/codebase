@@ -24,24 +24,20 @@ public:
 		:_tid(ToolThread::tid())
 	{
 		int result = pthread_mutex_init(&_mutex,NULL);
-		notZeroErr(result, "init mutex fail");
 	}
 	~MutexLock()
 	{
 		int result = pthread_mutex_destroy(&_mutex);
-		notZeroErr(result, "destroy mutex fail");
 	}
 
 	void lock()
 	{
 		int result = pthread_mutex_lock(&_mutex);
-		notZeroErr(result, "lock fail");
 	}
 
 	void unlock()
 	{
 		int result = pthread_mutex_unlock(&_mutex);
-		notZeroErr(result, "unlock fail");
 	}
 	
 	pthread_mutex_t *mutex()
