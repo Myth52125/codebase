@@ -9,7 +9,8 @@
 #include <codebase/base/Mutex.h>
 #include <codebase/base/ToolThread.h>
 
-
+namespace myth52125
+{
 class Thread
 {
 public:
@@ -36,7 +37,7 @@ public:
 
 
 
-
+}
 
 
 

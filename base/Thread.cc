@@ -1,5 +1,6 @@
 
 #include <codebase/base/Thread.h>
+#include <sys/prctl.h>
 
 namespace myth52125
 {
@@ -27,13 +28,13 @@ public:
 
 	void runInThread()
 	{
-		ToolThread::_threadName = _threadName;
+//		ToolThread::t_threadName = _threadName;
 		::prctl(PR_SET_NAME, _threadName);
 		
 		_func();
 
 	}
-}
+};
 
 
 void *startInThread(void *arg)
@@ -49,9 +50,9 @@ void *startInThread(void *arg)
 
 using namespace myth52125;
 
-Thread:: Thread(const ThreadFunc &func, const std::string &name = "")
-	:_func(func),_threadName(name),_iStarted(false),_isJoined(false),_tid(ToolThread::tid()),
-	_threadId(new pid_t(0))
+Thread:: Thread(const ThreadFunc &func, const std::string &name)
+	:_func(func),_threadName(name),_isStarted(false),_isJoined(false),_tid(ToolThread::tid()),
+	_threadId(0)
 {
 
 }
@@ -72,18 +73,18 @@ void Thread::start()
 
 		assistant::ThreadData *data=new assistant::ThreadData(_func,_threadName);
 
-		int result = pthread_create(&_threadId,NULL,startInThread,&data);
-		isStarted = true;
+		int result = pthread_create(&_threadId,NULL,assistant::startInThread,&data);
+		_isStarted = true;
 	}
 }
 
 
-void Thread::joid()
+void Thread::join()
 {
 	if(!_isJoined)
 	{
 		int result = pthread_join(_threadId,NULL);
-		isJoined = true;
+		_isJoined = true;
 	
 	}
 
