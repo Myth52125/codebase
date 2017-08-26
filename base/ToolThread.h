@@ -13,6 +13,7 @@ namespace ToolThread
 
 
 __thread pid_t _threadtid;
+thread_local std::string _threadName;
 
 inline pid_t tid()
 {
