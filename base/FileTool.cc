@@ -31,7 +31,7 @@ void FileAppend::append(const char *logLine ,size_t len)
 		}
 
 		hasWrite += writeAgain;
-		remain = len =hasWrite;
+		remain = len -  hasWrite;
 	}
 	_writtenBytes += len;
 }
