@@ -37,7 +37,7 @@ public:
 	}
 	
 		
-	int64_t mircosecond()
+	const int64_t mircosecond()
 	{
 //		showbytes((unsigned char *)&_mircosecond,sizeof(_mircosecond));
 		return _mircosecond;
@@ -77,10 +77,10 @@ inline bool operator==(Timestamp &l,Timestamp &r)
 	return l.mircosecond()	== r.mircosecond()	;
 	
 }
-inline double timeDiffence(const Timestamp &h, const Timestamp &l)
+inline double timeDiffence(Timestamp &h,Timestamp &l)
 {
-	int64_t diffence = h.mircosecond() -l.mircosecond();
-	return static_cast<double>(diffence/mircoPerSecond);
+	int64_t diffence = h.mircosecond() - l.mircosecond();
+	return static_cast<double>(diffence/Timestamp::mircoPerSecond);
 
 
 
@@ -99,10 +99,10 @@ public:
 		status();
 	}
 
-	double status(bool print == true)
+	double status(bool print = true)
 	{
-		Timestamp now();
-		double diffence = now.mircosecond() - _time.mircosecond();
+		Timestamp now;
+		double diffence = timeDiffence(now,_time);
 		if(print)
 		{
 			std::cout<<"From the beginning to now after "<<diffence<<" seconds. "<<std::endl;
