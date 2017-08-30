@@ -13,13 +13,28 @@ namespace net
 class PollPoller :public Poller
 {
 public:
+	typedef std::vector<Channel *> ChannelList;
+	typedef std:;vector<struct 	pollfd> PollFdList;
 	
 
 
 private:
-
+	PollFdList 	_pollFdList;
+	
+	void fillReadyChannel(int num, ChannelList *);
 
 public:
+	PollPoller(EventLoop * loop)
+		:Poller(loop)
+	{
+	}
+	~PollPoller()
+	{}
+
+
+	virtual Timestamp poll(int timeout,ChannelList *);
+	virtual void updataChannel(Channel *);
+	virtual void removeChannel(Channel *);
 
 
 
