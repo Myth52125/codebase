@@ -1,10 +1,10 @@
-#include <Channel.h>
+#include <codebase/net/Channel.h>
 
 using namespace myth52125;
 using namespace myth52125::net;
 
 Channel::Channel(EventLoop *loop, int fd)
-	_loop(loop),_fd(fd),
+	:_loop(loop),_fd(fd),
 	_events(0),_revents(0),
 	_eventHandling(false),_addedToLoop(false),
 	_index(-1)
@@ -17,7 +17,7 @@ Channel::~Channel()
 void Channel::update()
 {
 	_addedToLoop=true;	//after update,loop hold this channel
-	loop->updateChannel(this);
+	_loop->updateChannel(this);
 }
 
 void Channel::handleEvent(Timestamp when)
@@ -27,7 +27,7 @@ void Channel::handleEvent(Timestamp when)
 	{
 		if(_cl)
 		{
-			cl();
+			_cl();
 		}
 	}
 
@@ -51,7 +51,7 @@ void Channel::handleEvent(Timestamp when)
 	{
 		if(_wr)
 		{
-			wr();
+			_wr();
 		}
 	}
 

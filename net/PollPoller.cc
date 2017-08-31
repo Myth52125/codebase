@@ -1,13 +1,13 @@
 
-#include <PollPoller.h>
+#include <codebase/net/PollPoller.h>
 #include <poll.h>
-#include <muduo/net/Channel.h>
+#include <codebase/net/Channel.h>
 
 using namespace myth52125;
 using namespace myth52125::net;
 
 
-Timestamp PollPoller::poll(int timeout, ChannelList * channels)
+Timestamp PollPoller::poller(int timeout, ChannelList * channels)
 {
 	//先取迭代器，然后解引用获得对象，再取地址
 	int channelReadyNum = ::poll(&*_pollFdList.begin(),_pollFdList.size(),timeout);
@@ -23,19 +23,19 @@ Timestamp PollPoller::poll(int timeout, ChannelList * channels)
 
 void PollPoller::fillReadyChannel(int num, ChannelList *channels)
 {
-	for (PollPoller::iterator it = _pollFdList.begin() ;
-			it 1= _pollFdList.end() && num >0;
+	for (PollFdList::iterator it = _pollFdList.begin() ;
+			it != _pollFdList.end() && num >0;
 			++it
 			)
 	{
-		if(it -> revent > 0)
+		if(it -> revents > 0)
 		{
 			num--;
-			ChannelMap::iteratot cm = _channels.find(it->fd);
+			ChannelMap::iterator cm = _channels.find(it->fd);
 
-			Channel *channel = cm.second;	
+			Channel *channel = cm->second;	
 
-			channel->revent(it->revent);
+			channel->revents(it->revents);
 
 			channels->push_back(channel);
 		}
@@ -47,14 +47,14 @@ void PollPoller::fillReadyChannel(int num, ChannelList *channels)
 
 
 
-void PollPoller::updataChannel(Channel *channel)
+void PollPoller::updateChannel(Channel *channel)
 {
-	if(channel->index() = -1)
+	if(channel->index() == -1)
 	{
 		struct 	pollfd pfd ;
 		pfd.fd = channel->fd();
-		pfd.event = channel ->event();
-		pfd.revent = 0;
+		pfd.events = channel ->events();
+		pfd.revents = 0;
 		int index = static_cast<int>(_channels.size() - 1);
 		channel->index(index);
 		_pollFdList.push_back(pfd);
@@ -63,8 +63,8 @@ void PollPoller::updataChannel(Channel *channel)
 		int index = channel->index();
 		struct pollfd &pfd = _pollFdList[index];
 		pfd.fd = channel->fd();
-		pfd.event = channel->event();
-		pfd.revent = 0;
+		pfd.events = channel->events();
+		pfd.revents = 0;
 	
 	
 	}

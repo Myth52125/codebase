@@ -21,7 +21,6 @@ public:
 	Timestamp(int64_t t)
 		:_mircosecond(t)
 	{
-		std::cout<<"in construstor t: "<<&_mircosecond<<std::endl;
 	}
 
 	Timestamp(time_t ,int micro);
@@ -39,20 +38,8 @@ public:
 		
 	const int64_t mircosecond()
 	{
-//		showbytes((unsigned char *)&_mircosecond,sizeof(_mircosecond));
 		return _mircosecond;
 	}
-
-
-	void showbytes(unsigned char *buf ,int len)
-	{
-		for(int i = 0; i<len;i++)
-		{
-			std::cout<<""<<(int)buf[i]<<" ";
-		}
-		std::cout<<std::endl;
-	}
-
 
 
 	std::string toString(bool showMirco = true);

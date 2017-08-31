@@ -52,14 +52,14 @@ void EventLoop::loop()
 	{
 		_channels.clear();
 		
-		_pollReturnTime = _poller(10000, &_channels);
+		_pollReturnTime = _poller->poller(10000, &_channels);
 
 		_eventHanling = true;
-		for(ChannelList::iterator it = _channels.begin(),it != _channels.end(),it++)
+		for(ChannelList::iterator it = _channels.begin();it != _channels.end();it++)
 		{
-			_currentChannel = it;
+			_currentChannel = *it;
 
-			_currentChannel.handleEvent();
+			_currentChannel->handleEvent(Timestamp());
 		}
 		_currentChannel = NULL;
 		_eventHanling =false;
@@ -77,4 +77,7 @@ void EventLoop::quit()
 }
 
 
-
+void EventLoop::updateChannel(Channel *channel)
+{
+	_poller->updateChannel(channel);
+}

@@ -20,7 +20,7 @@ namespace net
 {
 
 class Channel;
-
+class Poller;
 
 class EventLoop
 {
@@ -29,7 +29,8 @@ public:
 	typedef std::vector<Channel *> ChannelList;
 	
 	EventLoop();
-	~EventLoop();
+	~EventLoop()
+	{}
 private:
 	MutexLock _mutex;
 
@@ -51,8 +52,9 @@ public:
 	void handleRead();
 	void wakeup();
 	void loop();
+	void updateChannel(Channel *);
 
-	
+	void quit();	
 };
 
 }

@@ -4,7 +4,7 @@
 
 
 #include <codebase/net/Poller.h>
-#include <codebase/net/EventLoop.h>
+#include <poll.h>
 
 #include <vector>
 
@@ -14,7 +14,7 @@ namespace myth52125
 namespace net
 {
 
-
+class EventLoop;
 class PollPoller :public Poller
 {
 public:
@@ -37,8 +37,8 @@ public:
 	{}
 
 
-	virtual Timestamp poll(int timeout,ChannelList *);
-	virtual void updataChannel(Channel *);
+	virtual Timestamp poller(int timeout,ChannelList *);
+	virtual void updateChannel(Channel *);
 	virtual void removeChannel(Channel *);
 
 

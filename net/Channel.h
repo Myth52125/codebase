@@ -117,7 +117,7 @@ public:
 		return _index;
 	}
 	
-	void handlerEvent(Timestamp when);
+	void handleEvent(Timestamp when);
 
 	void remove();
 

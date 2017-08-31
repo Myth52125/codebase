@@ -13,15 +13,16 @@ namespace net
 {
 
 class Channel;
-
+class EventLoop;
 
 class Poller
 {
 public:
 	typedef std::vector<Channel *> ChannelList;
-	typedef std::map<int Channel*> ChannelMap;
+	typedef std::map<int, Channel*> ChannelMap;
 private:
 	EventLoop *_loop;
+protected:
 	ChannelMap _channels;
 public :
 	Poller(EventLoop *loop)

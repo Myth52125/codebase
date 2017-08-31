@@ -23,13 +23,10 @@ Timestamp::Timestamp(time_t t,int micro)
 
 std::string Timestamp::toString(bool showMirco)
 {
-	std::cout<<"tostring :"<<&_mircosecond<<std::endl;
-		
 	struct tm t;
 	time_t second =static_cast<time_t>( _mircosecond / mircoPerSecond);
 	gmtime_r(&second ,&t);
 	
-	std::cout<<"hour"<<t.tm_hour<<"\n";
 	char buf[32] = {0};
 	if(showMirco)
 	{
