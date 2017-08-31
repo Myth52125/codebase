@@ -1,20 +1,25 @@
 #ifndef _POLLPOLLER_H_M_
 #define _POLLPOLLER_H_M_
 
+
+
+#include <codebase/net/Poller.h>
+#include <codebase/net/EventLoop.h>
+
+#include <vector>
+
+
 namespace myth52125
 {
 namespace net
 {
-
-#include <codebase/net/Poller.h>
-#include <codebase/net/EventLoop.h>
 
 
 class PollPoller :public Poller
 {
 public:
 	typedef std::vector<Channel *> ChannelList;
-	typedef std:;vector<struct 	pollfd> PollFdList;
+	typedef std::vector<struct 	pollfd> PollFdList;
 	
 
 
@@ -38,7 +43,7 @@ public:
 
 
 
-}
+};
 
 
 

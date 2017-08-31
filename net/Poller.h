@@ -1,7 +1,11 @@
 #ifndef _POLLER_H_M_
 #define _POLLER_H_M_
 
+#include <map>
 #include <vector>
+#include <codebase/net/EventLoop.h>
+#include <codebase/base/Timestamp.h>
+
 
 namespace myth52125
 {
@@ -15,11 +19,10 @@ class Poller
 {
 public:
 	typedef std::vector<Channel *> ChannelList;
-
+	typedef std::map<int Channel*> ChannelMap;
 private:
 	EventLoop *_loop;
-
-
+	ChannelMap _channels;
 public :
 	Poller(EventLoop *loop)
 		:_loop(loop)
@@ -32,24 +35,7 @@ public :
 	virtual void removeChannel(Channel* )=0;
 
 
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
+};
 
 }
 

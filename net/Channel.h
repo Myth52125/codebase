@@ -3,12 +3,13 @@
 
 #include <boost/function.hpp>
 #include <codebase/base/Timestamp.h>
-
-
+#include <codebase/net/EventLoop.h>
+#include <poll.h>
 namespace myth52125
 {
 namespace net
 {
+class EventLoop;
 
 class Channel
 {
@@ -52,54 +53,48 @@ public:
 
 	}
 
-	void setErrorCallback(const Eventback &er)
+	void setErrorCallback(const EventCallback &er)
 	{
 		_er=er;
 	}
-	void setCloseCallback(const EventBack &cl)
+	void setCloseCallback(const EventCallback &cl)
 	{
 		_cl=cl;
 	}
 
 	void waitRead()
 	{
-		_event|=PRead;
+		_events|=PReadEvent;
 		update();
 	}
 
 	void waitWrite()
 	{
-		_event|=PWrite;
-		update();
-	}
-	
-	void waitError()
-	{
-		_event|=PError;
+		_events|=PWriteEvent;
 		update();
 	}
 
 	void endWaitWrite()
 	{
-		_event &|~ PWriteEvent;
+		_events &= ~PWriteEvent;
 		update();
 	}
 
 	void endWaitRead()
 	{
-		_event &| ~PReadEvent;
+		_events &= ~PReadEvent;
 		update();
 	}
 
 	void endWaitAll()
 	{
-		_event = 0;
+		_events = 0;
 		update();
 	}
 
 	int events()
 	{
-		return _event;
+		return _events;
 	}
 
 	void revents(int re)
@@ -130,7 +125,7 @@ public:
 
 
 
-}
+};
 
 
 

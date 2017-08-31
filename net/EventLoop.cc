@@ -1,11 +1,12 @@
 #include <codebase/net/EventLoop.h>
 
-#include <eventfd.h>
+#include <sys/eventfd.h>
 
+#include <boost/bind.hpp>
 
 
 using namespace myth52125;
-using namespcae myth52125::net;
+using namespace myth52125::net;
 
 int createEventFd()
 {
@@ -17,13 +18,13 @@ int createEventFd()
 
 EventLoop::EventLoop()
 	:_loop(false),_quit(false),_eventHanling(false),
-	_wakeFd(createEventFd()),_wakeChannel(_wakeFd)
+	_wakeFd(createEventFd()),_wakeChannel(new Channel(this,_wakeFd)),
+	_poller(new PollPoller(this))
 {
-	_wakeFd
-		_wakeChannel.setReadCallback(
+	_wakeChannel->setReadCallback(
 				boost::bind(&EventLoop::handleRead,this)
 				);
-	_wakeChannel.waitRead();
+	_wakeChannel->waitRead();
 }
 
 
@@ -32,7 +33,7 @@ EventLoop::EventLoop()
 void EventLoop::handleRead()
 {
 	uint64_t result;
-	size_t size = ::read(_wakeFd.&result,sizeof(result));
+	size_t size = ::read(_wakeFd,&result,sizeof(result));
 }
 
 //only for _wakeFd and _wakeChannel , wakeup loop.
