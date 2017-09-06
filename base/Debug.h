@@ -11,4 +11,6 @@
 
 #define debugMsg(msg) {ERRLESSZERO(0,msg);}
 
+#define NULLERR(n,msg) {if(NULL == n) {ERRLESSZERO(0,msg); }}
+
 #endif
