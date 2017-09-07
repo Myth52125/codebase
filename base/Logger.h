@@ -2,7 +2,7 @@
 #define _MYTH52125_MUTEX_H_
 #include <codebase/base/StringArg.h>
 #include <codebase/base/LogFile.h>
-namespace myth52125;
+namespace myth52125
 {
 namespace base
 {
@@ -15,9 +15,50 @@ public:
 private:
 	LogFile _file;
 	void append(const StringArg str,size_t len);
-public:
 	
+	template<typename T>
+	size_t formatNum(T v);
+public:
+	Logger& operator<<(int i);
+	Logger& operator<<(unsigned int i);
+	Logger& operator<<(short i);
+	Logger& operator<<(unsigned short i);
+	Logger& operator<<(long i);
+	Logger& operator<<(unsigned long i);
+	Logger& operator<<(void *i);
+	Logger& operator<<(const char &i)
+	{
+		append(&i,1);
+		return *this;
+	}
 
+	Logger& operator<<(const char* str)
+	{
+		if(str)
+		{
+			append(str,sizeof(str));
+		}else{
+			append("NULL",4);
+		}
+		return *this;
+	}
+
+	Logger& operator<<(const unsigned char * str)
+	{
+		return operator<<(reinterpret_cast<const char*>(str));
+	}
+
+	Logger& operator<<(const StringArg &i)
+	{
+		append(i.c_str(),i.size());
+		return *this;
+	}
+
+	Logger& operator<<(std::string &i)
+	{
+		append(i.c_str(),i.size());
+		return *this;
+	}
 };
 
 

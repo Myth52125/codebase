@@ -3,11 +3,11 @@
 
 
 
-#include <boost/scoped_ptr.h>
+#include <boost/scoped_ptr.hpp>
 #include <codebase/base/File.h>
 #include <codebase/base/StringArg.h>
-
-namespace myth52125;
+#include <codebase/base/MutexLock.h>
+namespace myth52125
 {
 namespace base
 {
@@ -15,7 +15,7 @@ namespace base
 class LogFile
 {
 public:
-	LogFile(const StringAeg name,size_t _maxSize,size_t maxCount );
+	LogFile(const StringArg name,size_t _maxSize,size_t maxCount );
 private:
 	boost::scoped_ptr<File> _file;
 	boost::scoped_ptr<MutexLock> _mutex;
@@ -24,7 +24,8 @@ private:
 	size_t _count;
 	void appendUnsafe(const StringArg ,size_t);
 	void rollFile();
-	StringArg createNextFileName();
+	StringArg _baseName;
+	StringArg createNextFileName(const StringArg &str);
 public:
 	void append(const StringArg str,size_t len);
 

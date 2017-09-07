@@ -1,33 +1,22 @@
-#include "Debug.h"
+#include <codebase/base/Debug.h>
+#include <codebase/base/MutexLock.h>
+#include <codebase/base/File.h>
+#include <codebase/base/LogFile.h>
+#include <codebase/base/Logger.h>
+#include <codebase/base/StringArg.h>
 
+using namespace myth52125;
+using namespace myth52125::base::thread;
+using namespace myth52125::tools;
+using namespace myth52125::base;
 
-class A
+int main()
 {
-	public:
-	A(int i,int ii)
-		:_i(i),_ii(ii)
-	{
-		debugMsg("A()");	
-	}
-	int _i;
-	int _ii;
-};
-
-class B
-{
-	public:
-		B(int i,int ii)
-			:_a(A(i,ii))
-		{
-		
-		}
-
-	A _a;
-};
+	Logger("log.txt",1000,10);
 
 
-int main ()
-{
-	B b(1,1);
 
 }
+
+//g++ -o test test.cc ../../codebase/base/Debug.h ../../codebase/base/Debug.h ../../codebase/base/EveryThread.h ../../codebase/base/File.h ../../codebase/base/File.cc ../../codebase/base/LogFile.h ../../codebase/base/LogFile.cc ../../codebase/base/Logger.h ../../codebase/base/Logger.cc ../../codebase/base/MutexLock.h ../../codebase/base/MutexLock.cc ../../codebase/base/StringArg.h -I../../ -lpthread
+

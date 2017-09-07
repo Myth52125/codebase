@@ -25,7 +25,7 @@ private:
 public:
 	void append(const char *,size_t);
 	void flush();
-	size_t written() return _written;
+	size_t written() {return _written;}
 };
 
 
