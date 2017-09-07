@@ -1,13 +1,33 @@
 #include "Debug.h"
-#include "StringArg.h"
 
-int main()
+
+class A
 {
-	using namespace myth52125::base;
-	ERRLESSZERO(0,"hah");
-	MUTEXERR(0);
+	public:
+	A(int i,int ii)
+		:_i(i),_ii(ii)
+	{
+		debugMsg("A()");	
+	}
+	int _i;
+	int _ii;
+};
 
-	StringArg s("asd");
-	StringArg S1(s);
-	debugMsg(s.c_str());
+class B
+{
+	public:
+		B(int i,int ii)
+			:_a(A(i,ii))
+		{
+		
+		}
+
+	A _a;
+};
+
+
+int main ()
+{
+	B b(1,1);
+
 }

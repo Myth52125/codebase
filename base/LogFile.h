@@ -1,5 +1,5 @@
-#ifndef _MYTH52125_MUTEX_H_
-#define _MYTH52125_MUTEX_H_
+#ifndef _MYTH52125_LOGFILE_H_
+#define _MYTH52125_LOGFILE_H_
 
 
 
@@ -15,10 +15,10 @@ namespace base
 class LogFile
 {
 public:
-	LogFile(const StringAeg name );
+	LogFile(const StringAeg name,size_t _maxSize,size_t maxCount );
 private:
 	boost::scoped_ptr<File> _file;
-	MutexLock _mutex;
+	boost::scoped_ptr<MutexLock> _mutex;
 	size_t _maxSize;
 	size_t _maxCount;
 	size_t _count;

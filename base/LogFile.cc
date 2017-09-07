@@ -8,8 +8,9 @@ using namespace myth52125::base;
 
 
 
-LogFile::LogFile()
-	：
+LogFile::LogFile(const StringArg name,size_t maxSize,size_t maxCount)
+	:_file(name),_maxSize(maxSize),_maxCount(maxCount),
+	_mutex(NULL)
 {
 
 }
