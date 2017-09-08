@@ -14,7 +14,7 @@ namespace myth52125
 namespace tools
 {
 
-const char digits[]="01234567890ABCDEF";
+const char digits[]="98765432101234567890ABCDEF";
 template<typename T>
 
 size_t numToString(char buf[],T value,int radix = 10)
@@ -50,12 +50,19 @@ using namespace myth52125::tools;
 
 LogFile::LogFile(const StringArg name,size_t maxSize,size_t maxCount)
 	:_file(new File(name)),_maxSize(maxSize),_maxCount(maxCount),
-	_mutex(NULL),_baseName(name)
+	_mutex(NULL),_baseName(name),_bufWritten(0)
 {
 
 }
 
-
+void LogFile::tmpAppend(const StringArg str ,size_t len)
+{
+	if((TMPBUFSIZE-_bufWritten) > len)
+	{
+		memcpy(_buf+_bufWritten ,str.c_str(),len);
+		_bufWritten += len;
+	}
+}
 
 void LogFile::append(const StringArg str,size_t len)
 {
@@ -66,11 +73,11 @@ void LogFile::append(const StringArg str,size_t len)
 	}else{
 		appendUnsafe(str,len);
 	}
+	
 }
 
 void LogFile::appendUnsafe(const StringArg str ,size_t len)
 {
-	cout<<"write"<<endl;
 	_file->append(str.c_str(),len);
 	_count ++;
 	if(_file->written() > _maxSize || _count > _maxCount)
@@ -79,6 +86,7 @@ void LogFile::appendUnsafe(const StringArg str ,size_t len)
 		_count = 0;	
 	}
 }
+
 
 void LogFile::rollFile()
 {
@@ -93,7 +101,12 @@ StringArg LogFile::createNextFileName(const StringArg &str)
 
 }
 
-
+void LogFile::writeInToFile()
+{
+	append(_buf,_bufWritten);
+	
+	_bufWritten = 0;
+}
 
 
 template<typename T>
@@ -101,7 +114,7 @@ size_t LogFile::formatNum(T v)
 {
 	char p[32];
 	size_t len = numToString(p,v);
-	append(p,v);
+	tmpAppend(p,v);
 
 }
 

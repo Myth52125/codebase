@@ -12,12 +12,16 @@ namespace myth52125
 namespace base
 {
 
+#define TMPBUFSIZE 128
+
 class LogFile
 {
 public:
 	LogFile(const StringArg name,size_t _maxSize,size_t maxCount );
 private:
 	boost::scoped_ptr<File> _file;
+	char _buf[TMPBUFSIZE];
+	size_t _bufWritten;
 	boost::scoped_ptr<MutexLock> _mutex;
 	size_t _maxSize;
 	size_t _maxCount;
@@ -27,10 +31,11 @@ private:
 	StringArg _baseName;
 	StringArg createNextFileName(const StringArg &str);
 	void append(const StringArg str,size_t len);
-
+	void tmpAppend(const StringArg str,size_t len);
 	template<typename T>
 	size_t formatNum(T v);
 public:
+	void writeInToFile();
 	LogFile& operator<<(int i);
 	LogFile& operator<<(unsigned int i);
 	LogFile& operator<<(short i);
@@ -40,7 +45,7 @@ public:
 	LogFile& operator<<(void *i);
 	LogFile& operator<<(const char &i)
 	{
-		append(&i,1);
+		tmpAppend(&i,1);
 		return *this;
 	}
 
@@ -48,9 +53,9 @@ public:
 	{
 		if(str)
 		{
-			append(str,strlen(str));
+			tmpAppend(str,strlen(str));
 		}else{
-			append("NULL",4);
+			tmpAppend("NULL",4);
 		}
 		return *this;
 	}
@@ -62,13 +67,13 @@ public:
 
 	LogFile& operator<<(const StringArg &i)
 	{
-		append(i.c_str(),i.size());
+		tmpAppend(i.c_str(),i.size());
 		return *this;
 	}
 
 	LogFile& operator<<(std::string &i)
 	{
-		append(i.c_str(),i.size());
+		tmpAppend(i.c_str(),i.size());
 		return *this;
 	}
 

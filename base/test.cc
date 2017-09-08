@@ -3,6 +3,9 @@
 #include <codebase/base/File.h>
 #include <codebase/base/LogFile.h>
 #include <codebase/base/StringArg.h>
+#include <codebase/base/LogFile.h>
+#include <codebase/base/Logger.h>
+
 
 using namespace myth52125;
 using namespace myth52125::base::thread;
@@ -12,13 +15,13 @@ int main()
 {
 	MutexLock l;
 	MutexLock locl(l);
-	File f("log.txt");
-	f.append("asdasdads",9);
+
 	
-	LogFile log("logfile.txt",1000,100);
-
-
-	log<<"12"<<1<<"asdasdasdasd\n";
+	for(int i=0;i<10;i++)
+	{
+		LOG_TRACE<<i<<"   pppppppppppppppp"<<"33124dasd\n";
+	
+	}
 
 }
 
