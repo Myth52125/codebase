@@ -1,5 +1,5 @@
-#ifndef _MYTH52125_STRING_H_
-#define _MYTH52125_STRING_H_
+#ifndef _MYTH52125_STRINGARG_H_
+#define _MYTH52125_STRINGARG_H_
 
 #include <string.h>
 #include <string>

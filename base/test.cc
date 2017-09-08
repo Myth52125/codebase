@@ -2,19 +2,23 @@
 #include <codebase/base/MutexLock.h>
 #include <codebase/base/File.h>
 #include <codebase/base/LogFile.h>
-#include <codebase/base/Logger.h>
 #include <codebase/base/StringArg.h>
 
 using namespace myth52125;
 using namespace myth52125::base::thread;
-using namespace myth52125::tools;
 using namespace myth52125::base;
 
 int main()
 {
-	Logger("log.txt",1000,10);
+	MutexLock l;
+	MutexLock locl(l);
+	File f("log.txt");
+	f.append("asdasdads",9);
+	
+	LogFile log("logfile.txt",1000,100);
 
 
+	log<<"12"<<1<<"asdasdasdasd\n";
 
 }
 

@@ -5,6 +5,12 @@
 
 #include <algorithm>
 
+#include <iostream>
+using namespace std;
+
+
+
+
 namespace myth52125
 {
 namespace tools
@@ -19,7 +25,7 @@ size_t numToString(char buf[],T value,int radix = 10)
 	char *p=buf;
 	do
 	{
-		p = static_cast<int>(value%radix);
+		tmp = static_cast<int>(value%radix);
 		value/=radix;
 		*p = digits[tmp]; 
 		p++;
@@ -55,7 +61,7 @@ size_t Logger::formatNum(T v)
 
 
 Logger::Logger(const StringArg name,size_t maxSize,size_t maxCount)
-	:_file(LogFile(name,maxSize,maxCount))
+	:_file(name,maxSize,maxCount)
 {
 
 }

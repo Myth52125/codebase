@@ -1,6 +1,7 @@
-#ifndef _MYTH52125_MUTEX_H_
-#define _MYTH52125_MUTEX_H_
-#include <codebase.base.StringArg.h>
+#ifndef _MYTH52125__H_
+#define _MYTH52125__H_
+#include <codebase/base/StringArg.h>
+
 namespace myth52125;
 {
 namespace base

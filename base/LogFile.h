@@ -26,9 +26,51 @@ private:
 	void rollFile();
 	StringArg _baseName;
 	StringArg createNextFileName(const StringArg &str);
-public:
 	void append(const StringArg str,size_t len);
 
+	template<typename T>
+	size_t formatNum(T v);
+public:
+	LogFile& operator<<(int i);
+	LogFile& operator<<(unsigned int i);
+	LogFile& operator<<(short i);
+	LogFile& operator<<(unsigned short i);
+	LogFile& operator<<(long i);
+	LogFile& operator<<(unsigned long i);
+	LogFile& operator<<(void *i);
+	LogFile& operator<<(const char &i)
+	{
+		append(&i,1);
+		return *this;
+	}
+
+	LogFile& operator<<(const char* str)
+	{
+		if(str)
+		{
+			append(str,strlen(str));
+		}else{
+			append("NULL",4);
+		}
+		return *this;
+	}
+
+	LogFile& operator<<(const unsigned char * str)
+	{
+		return operator<<(reinterpret_cast<const char*>(str));
+	}
+
+	LogFile& operator<<(const StringArg &i)
+	{
+		append(i.c_str(),i.size());
+		return *this;
+	}
+
+	LogFile& operator<<(std::string &i)
+	{
+		append(i.c_str(),i.size());
+		return *this;
+	}
 
 
 };

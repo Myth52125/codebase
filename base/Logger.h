@@ -1,7 +1,11 @@
-#ifndef _MYTH52125_MUTEX_H_
-#define _MYTH52125_MUTEX_H_
+#ifndef _MYTH52125_LOGGER_H_
+#define _MYTH52125_LOGGER_H_
+
 #include <codebase/base/StringArg.h>
 #include <codebase/base/LogFile.h>
+#include <iostream>
+using namespace std;
+
 namespace myth52125
 {
 namespace base
@@ -36,7 +40,7 @@ public:
 	{
 		if(str)
 		{
-			append(str,sizeof(str));
+			append(str,strlen(str));
 		}else{
 			append("NULL",4);
 		}

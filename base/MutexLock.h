@@ -1,5 +1,6 @@
 #ifndef _MYTH52125_MUTEXLOCK_H_
 #define _MYTH52125_MUTEXLOCK_H_
+
 #include <codebase/base/StringArg.h>
 #include <codebase/base/EveryThread.h>
 #include <codebase/base/Debug.h>

@@ -13,17 +13,17 @@ namespace base
 namespace thread
 {
 
-__thread pid_t threadTid;
-__thread char threadName[32];
-__thread size_t threadNameLen = 0;
+extern __thread  pid_t _threadTid;
+extern __thread  char _threadName[32];
+extern __thread  size_t _threadNameLen;
 
 
 
 
-pid_t getTid()
+inline pid_t getTid()
 {
-	threadTid = static_cast<pid_t>(::syscall(SYS_gettid));
-	return threadTid;
+	return  static_cast<pid_t>(::syscall(SYS_gettid));
+	 
 }
 
 
