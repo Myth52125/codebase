@@ -2,13 +2,19 @@
 #define _MYTH52125__H_
 
 #include <codebase/base/StringArg.h>
-#include <codebase/base/LogFile.h>
+#include <codebase/base/LogStream.h>
+#include <codebase/base/Timestamp.h>
+#include <codebase/base/EveryThread.h>
+
+// extern __thread  char _threadName[32];
+// extern __thread  pid_t _threadTid;
+
 namespace myth52125
 {
 namespace base
 {
 
-LogFile logNormal("normal.txt",1000000,10);
+
 
 class Logger
 {
@@ -22,28 +28,30 @@ public:
         ERROR,
         FATAL
     };
-    Logger(LogFile &log, const StringArg file,const StringArg func, 
+    Logger(const StringArg file,const StringArg func, 
         int line,LogLevel level)
-            :_log(log)
             {
             }
 
     ~Logger()
     {
-        _log.writeInToFile();
+        _log.printf();
     }
 private:
-    LogFile &_log;
+    LogStream _log;
 public: 
-    LogFile &stream()
+    LogStream &stream()
     {
+        _log<<Timestamp().toString()
+            <<" thread : "<<static_cast<int>(thread::getTid())
+            <<" thread name : "<<thread::_threadName<<" | "; 
         return _log;
     }
 };
 
 
 
-#define LOG_TRACE Logger(logNormal,__FILE__,__func__,__LINE__,\
+#define LOG_TRACE Logger(__FILE__,__func__,__LINE__,\
     Logger::TRACE).stream()
 
 
