@@ -18,9 +18,10 @@ int main()
 
 //	::printf("stream head");
 	
-	
+	for(int i =0;i<=10;i++)
+	{
 	LOG_TRACE<<"   pppppppppppppppp"<<"33124das00000000d\n";
-	
+	}
 	Timestamp t;
 	//LOG_TRACE<<t.toString();
 }
