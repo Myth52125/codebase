@@ -1,8 +1,10 @@
 #include <codebase/base/Thread.h>
 #include <stdio.h>
+#include <unistd.h>
 
 void func01()
 {
+    sleep(2);
     printf("func01 \n");
 }
 

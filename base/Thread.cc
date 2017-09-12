@@ -43,6 +43,7 @@ void *bindForThread(void *data)
     ::prctl(PR_SET_NAME, "_threadName");
     ThreadData *_data = static_cast<ThreadData *>(data);
     _data->run();
+    delete _data;
 }
 
 }
@@ -70,7 +71,7 @@ void Thread::start()
     _started = true;
     tools::ThreadData *data =new tools::ThreadData(_func,_name);
     int result = pthread_create(&_pthread,NULL,&tools::bindForThread,data);
-    delete data;
+    
     printf("pthread create result %d \n",result);
 }
 
