@@ -1,7 +1,7 @@
 #ifndef _MYTH52125_CONDITION_H_
 #define _MYTH52125_CONDITION_H_
 
-#include <codebase/base/MutexLoch.h>
+#include <codebase/base/MutexLock.h>
 #include <codebase/base/StringArg.h>
 #include <pthread.h>
 
@@ -22,7 +22,7 @@ public:
 
     ~Condition()
     {
-        pthread_cond_destroy(_cond);
+        pthread_cond_destroy(&_cond);
     }
 private:
     pthread_cond_t _cond;
