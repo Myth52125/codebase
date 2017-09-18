@@ -13,24 +13,26 @@ using namespace myth52125::base;
 ThreadPool::ThreadPool(size_t num,StringArg name)
     :_threadNum(num),_name(name),
     _started(false),_stoped(false),
-    _maxTaskSize(num*10),
+    _maxTaskSize(num*4),
     _mutex(),_canAdd(_mutex),_canTake(_mutex)
 {
-    std::cout<<"mutex :"<<_mutex.mutex()<<std::endl;
-    
 }
 
 void ThreadPool::runInThread()
 {
-    if(_cb)
+    while(_started)
     {
-        _cb();
+        if(_cb)
+        {
+            _cb();
+        }
+        Task task = takeTask();
+        if(task)
+        {
+            task();
+        }
     }
-    Task task = takeTask();
-    if(task)
-    {
-        task();
-    }
+
 }
 
 void ThreadPool::start()
@@ -61,9 +63,8 @@ bool ThreadPool::fulled()
 ThreadPool::Task ThreadPool::takeTask()
 {
     MutexLockGuard lock(_mutex);
-    while(_tasks.empty())
+    while(_tasks.empty() && _started)
     {
-        printf("take wait()");
         _canTake.wait();
     }
     Task task;
@@ -73,13 +74,12 @@ ThreadPool::Task ThreadPool::takeTask()
         _tasks.pop_back();
         _canAdd.notifyAll();
     }
-    printf("take()\n");
     return task;
 }
 
 void ThreadPool::add(Task task)
 {
-    MutexLockGuard Lock(_mutex);
+    MutexLockGuard lock(_mutex);
     
     while(fulled())
     {
@@ -87,5 +87,4 @@ void ThreadPool::add(Task task)
     }
     _tasks.push_back(task);
     _canTake.notify();
-    printf("add()\n");
 }

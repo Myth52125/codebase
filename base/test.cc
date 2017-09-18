@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <boost/bind.hpp>
 #include <pthread.h>
+#include <codebase/base/EveryThread.h>
 
 using namespace myth52125;
 using namespace myth52125::base::thread;
@@ -21,7 +22,7 @@ using namespace myth52125::base;
 
 void fun()
 {
-	std::cout<<"fun is runing .......... "<<std::endl;
+	std::cout<<"fun is runing .......... "<<getTid()<<std::endl;
 }
 
 void cb()

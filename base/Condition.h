@@ -19,12 +19,15 @@ public:
     :_mutex(mutex)
     {
         std::cout<<"mutex :"<<_mutex.mutex()<<std::endl;
-        pthread_cond_init(&_cond,NULL);
+        int result = pthread_cond_init(&_cond,NULL);
+        NOTZEROERR(result,"condition init error");
     }
 
     ~Condition()
     {
-        pthread_cond_destroy(&_cond);
+        int result= pthread_cond_destroy(&_cond);
+        NOTZEROERR(result,"condition destroy error");
+        
     }
 private:
     pthread_cond_t _cond;
@@ -32,15 +35,20 @@ private:
 public:
     void wait()
     {
-        pthread_cond_wait(&_cond,_mutex.mutex());
+        int result= pthread_cond_wait(&_cond,_mutex.mutex());
+        NOTZEROERR(result,"condition wait error");
+        
     }
     void notify()
     {
-        pthread_cond_signal(&_cond);
+        int result= pthread_cond_signal(&_cond);
+        NOTZEROERR(result,"condition notify error");
+        
     }
     void notifyAll()
     {
-        pthread_cond_broadcast(&_cond); 
+        int result=pthread_cond_broadcast(&_cond);
+        NOTZEROERR(result,"condition notifyAll error");
     }
 
 

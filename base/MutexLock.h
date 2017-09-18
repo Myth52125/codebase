@@ -4,6 +4,7 @@
 #include <codebase/base/StringArg.h>
 #include <codebase/base/EveryThread.h>
 #include <codebase/base/Debug.h>
+#include <iostream>
 namespace myth52125
 {
 namespace base
@@ -60,7 +61,6 @@ public:
 		:_mutex(mutex)
 	{
 		_mutex.lock();
-		
 	}
 	~MutexLockGuard()
 	{
