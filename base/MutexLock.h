@@ -31,13 +31,16 @@ private:
 public:
 	void lock()	
 	{	
+		
 		int result = pthread_mutex_lock(&_mutex);
 		NOTZEROERR(result , "mutex lock err");
+		
 	}
 	void unlock()
 	{
 		int result = pthread_mutex_unlock(&_mutex);
 		NOTZEROERR(result , "mutex unlock err");
+		
 	}
 
 
@@ -57,6 +60,7 @@ public:
 		:_mutex(mutex)
 	{
 		_mutex.lock();
+		
 	}
 	~MutexLockGuard()
 	{

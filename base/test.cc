@@ -18,16 +18,10 @@ using namespace myth52125;
 using namespace myth52125::base::thread;
 using namespace myth52125::base;
 
-void* funs(void* arg)
-{
-	std::cout<<"start"<<std::endl;
-	ThreadPool *p = (ThreadPool*)arg;
-	p->start();
-}
 
 void fun()
 {
-	std::cout<<"one thread "<<std::endl;
+	std::cout<<"fun is runing .......... "<<std::endl;
 }
 
 void cb()
@@ -49,19 +43,17 @@ int main()
 // 	Timestamp t;
 	//LOG_TRACE<<t.toString();
 
-
 	ThreadPool p(4,"haha");
 	p.setCallBack(cb);
-	pthread_t t;	
-	pthread_create(&t,NULL,funs,(void *)&p);
-	std::cout<<"create: "<<std::endl;
+	p.start();
+	
 	while(true)
 	{
 		p.add(fun);
-	
+		sleep(1);
 	}
-	pthread_join(t,NULL);
-	
+
+	sleep(100);
 
 
 	

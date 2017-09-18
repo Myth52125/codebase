@@ -5,6 +5,7 @@
 #include <codebase/base/StringArg.h>
 #include <pthread.h>
 
+#include <iostream>
 namespace myth52125
 {
 namespace base
@@ -17,6 +18,7 @@ public:
     Condition(MutexLock &mutex)
     :_mutex(mutex)
     {
+        std::cout<<"mutex :"<<_mutex.mutex()<<std::endl;
         pthread_cond_init(&_cond,NULL);
     }
 
@@ -26,7 +28,7 @@ public:
     }
 private:
     pthread_cond_t _cond;
-    MutexLock _mutex;
+    MutexLock &_mutex;
 public:
     void wait()
     {

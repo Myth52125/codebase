@@ -3,6 +3,7 @@
 #include <codebase/base/Debug.h>
 #include <codebase/base/ThreadPool.h>
 #include <iostream>
+// #include <EveryThread.h>
 
 #include <boost/bind.hpp>
 
@@ -15,7 +16,8 @@ ThreadPool::ThreadPool(size_t num,StringArg name)
     _maxTaskSize(num*10),
     _mutex(),_canAdd(_mutex),_canTake(_mutex)
 {
-
+    std::cout<<"mutex :"<<_mutex.mutex()<<std::endl;
+    
 }
 
 void ThreadPool::runInThread()
@@ -37,7 +39,6 @@ void ThreadPool::start()
     _threads.reserve(_threadNum);
     for(int i=0;i<_threadNum;i++)
     {
-        std::cout<<"add thread: "<<i<<std::endl;
         char id[32];
         snprintf(id,sizeof(id),"%s : %d",_name.c_str(),i+1);
         _threads.push_back(new Thread(boost::bind(&ThreadPool::runInThread,this),id));
@@ -62,6 +63,7 @@ ThreadPool::Task ThreadPool::takeTask()
     MutexLockGuard lock(_mutex);
     while(_tasks.empty())
     {
+        printf("take wait()");
         _canTake.wait();
     }
     Task task;
@@ -71,16 +73,19 @@ ThreadPool::Task ThreadPool::takeTask()
         _tasks.pop_back();
         _canAdd.notifyAll();
     }
+    printf("take()\n");
     return task;
 }
 
 void ThreadPool::add(Task task)
 {
     MutexLockGuard Lock(_mutex);
+    
     while(fulled())
     {
         _canAdd.wait();
     }
     _tasks.push_back(task);
     _canTake.notify();
+    printf("add()\n");
 }

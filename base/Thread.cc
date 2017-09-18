@@ -26,11 +26,9 @@ struct ThreadData
     ThreadData(Func &func, const StringArg &name)
         :_func(func),_name(name)
     {
-        _func();        
     }
     void run()
     {
-        
         _func();
     }
 
@@ -39,7 +37,6 @@ struct ThreadData
 
 void *bindForThread(void *data)
 {   
-    printf("bbinf i");
     ::prctl(PR_SET_NAME, "_threadName");
     ThreadData *_data = static_cast<ThreadData *>(data);
     _data->run();
@@ -60,7 +57,6 @@ Thread::Thread(const Func &func, const StringArg &name)
     :_func(func),_name(name),
     _started(false),_joined(false)
 {
-    printf("func : %d \n",_func == NULL);
     
 }
 
@@ -72,7 +68,6 @@ void Thread::start()
     tools::ThreadData *data =new tools::ThreadData(_func,_name);
     int result = pthread_create(&_pthread,NULL,&tools::bindForThread,data);
     
-    printf("pthread create result %d \n",result);
 }
 
 void Thread::join()
