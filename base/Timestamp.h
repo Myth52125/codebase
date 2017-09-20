@@ -2,6 +2,8 @@
 #define _MYTH52125_TIMESTAMP_H_
 
 #include <codebase/base/StringArg.h>
+#include <stdint.h>
+#include <stdio.h>
 
 namespace myth52125
 {
@@ -15,6 +17,7 @@ public:
     explicit Timestamp()
         :_microsecond(now())
         {}
+
     explicit Timestamp(int64_t micro)
         :_microsecond(micro)
         {}
@@ -30,9 +33,9 @@ public:
     }
 };
 
-Timestamp operator-(const &rhl)
+inline double timeDifference(Timestamp lhs, Timestamp rhs)
 {
-    return Timestamp(this.mirco()-rhl.mirco);
+    return static_cast<double>((lhs.mirco()-rhs.mirco())/Timestamp::microsecondPerSecond);
 }
 
 class TimeSpend
@@ -43,15 +46,16 @@ public:
     {
     }
 
-    ~Timespace()
+    ~TimeSpend()
     {
         Timestamp tmp=Timestamp();
-        Timestamp tmp2=_start-tmp;
-        printf("the time spend form start : %s",
-            tmp2.toString().c_str());
+        printf("the time spend form start : %f \n",
+            timeDifference(tmp,_start));
     }
+private:
+    Timestamp _start;
 
-}
+};
 
 
 

@@ -18,7 +18,6 @@ public:
     Condition(MutexLock &mutex)
     :_mutex(mutex)
     {
-        std::cout<<"mutex :"<<_mutex.mutex()<<std::endl;
         int result = pthread_cond_init(&_cond,NULL);
         NOTZEROERR(result,"condition init error");
     }
