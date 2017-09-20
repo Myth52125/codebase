@@ -24,10 +24,34 @@ private:
 public:
     const static int microsecondPerSecond = 1000*1000;
     StringArg toString(bool showMicro= true);
+    int64_t mirco()
+    {
+        return _microsecond;
+    }
 };
 
+Timestamp operator-(const &rhl)
+{
+    return Timestamp(this.mirco()-rhl.mirco);
+}
 
+class TimeSpend
+{
+public:
+    TimeSpend()
+        :_start(Timestamp())
+    {
+    }
 
+    ~Timespace()
+    {
+        Timestamp tmp=Timestamp();
+        Timestamp tmp2=_start-tmp;
+        printf("the time spend form start : %s",
+            tmp2.toString().c_str());
+    }
+
+}
 
 
 
