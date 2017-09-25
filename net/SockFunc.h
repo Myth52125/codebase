@@ -29,6 +29,11 @@ const struct sockaddr_in* sockaddr_in_cast(const struct sockaddr* addr)
     return static_cast<const struct sockaddr_in*>(boost::implicit_cast<const void*>(addr));
 }
 
+struct sockaddr* sockaddr_cast(struct sockaddr_in* addr)
+{
+  return static_cast<struct sockaddr*>(boost::implicit_cast<void*>(addr));
+}
+
 int createSocket(sa_family_t family)
 {
     int sockfd = ::socket(family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
@@ -46,12 +51,12 @@ void listen(int fd)
 {
     ::listen(fd,INT16_MAX);
 }
-// int accept(int fd, struct sockaddr_in *addr)
-// {
-//     socklen_t socklen=static_cast<socklen_t>(sizeof(*addr));
-//     int confd=::accept(fd,sockaddr_cast(addr),&socklen);
-//     return confd;
-// }
+int accept(int fd, struct sockaddr_in *addr)
+{
+    socklen_t socklen=static_cast<socklen_t>(sizeof(*addr));
+    int confd=::accept(fd,sockaddr_cast(addr),&socklen);
+    return confd;
+}
 
 size_t read(int fd, void *buf, size_t len)
 {
@@ -87,7 +92,6 @@ void shutdownWrite(int fd)
 //     const struct sockadd_in *addr4=sockaddr_in_cast(addr);
 //     uint16_t port = ntohs(addr4->sin_port);
 //     snprintf(buf+iplen,len-iplen,":%d",port);
-
 // }
 
 void getAddr(const char *ip,uint64_t port,struct sockaddr_in *addr)

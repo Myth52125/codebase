@@ -32,6 +32,8 @@ class Channel
     ReadCallBack _rd;
     CallBack _wr;
     CallBack _cl;
+    CallBack _err;
+    
 
     void update();
 
@@ -52,6 +54,8 @@ class Channel
     {
         _cl = cl;
     }
+    void serErrorCallBack(const CallBack &err)
+    {}
     //set event and update to eventloop
     void canRead()
     {
@@ -102,10 +106,7 @@ class Channel
     //remove 
     void remove();
     //handle event
-    void handleEvents();    
-
-    //
-    void handleEvent()
+    void handleEvents()
     {
 
     }

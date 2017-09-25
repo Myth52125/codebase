@@ -4,10 +4,11 @@
 #include <codebase/net/Channel.h>
 #include <sys/eventfd.h>
 #include <boost/bind.hpp>
-#include <codebase/net/sockFunc.h>
+#include <codebase/net/SockFunc.h>
 #include <codebase/net/Poller.h>
 #include <codebase/net/PollPoller.h>
 #include <codebase/net/EventLoop.h>
+#include <iterator>
 
 using namespace myth52125;
 using namespace myth52125::net;
@@ -25,7 +26,8 @@ int createEventFd()
 EventLoop::EventLoop()
     :_wakeup(createEventFd()),_wakeupChannel(new Channel(_wakeup,this)),
     _islooping(false),_quit(false),
-    _poller(new PollPoller(this))
+    _poller(new PollPoller(this)),
+    _lock()
 {
     _wakeupChannel->setReadCallBack(
             boost::bind(&EventLoop::wakeupChannelRead,this));
@@ -61,11 +63,16 @@ void EventLoop::loop()
             it != _readyChannels.end();it++)
         {
             _cur = *it;
-            _cur->handleEvent();
+            _cur->handleEvents();
         }
         _cur=NULL;
         _eventHandling = false;
-        //wait
+        
+        for(std::vector<Task>::iterator it=queueTasks.begin();
+            it!=queueTasks.end();it++)
+        {
+            (*it)();
+        }
     }
     _islooping=false;
 }
@@ -83,3 +90,11 @@ void EventLoop::removeChannel(Channel *channel)
 }
 
 
+void EventLoop::add(const Task &task)
+{
+    {
+        MutexLockGuard lock(_lock);
+        queueTasks.push_back(task);
+    }
+    wakeup();
+}
