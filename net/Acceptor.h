@@ -41,22 +41,8 @@ public:
     {
         return _listening;
     }
-
-
 };
-
-
-
-
-
-
-
 }
-
-
-
 }
-
-
 
 #endif
