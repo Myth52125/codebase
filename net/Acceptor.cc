@@ -1,11 +1,9 @@
-
 #include <codebase/base/Debug.h>
 #include <codebase/net/Acceptor.h>
 #include <codebase/net/EventLoop.h>
 #include <codebase/net/InetAddr.h>
 #include <codebase/net/SockFunc.h>
 #include <boost/bind.hpp>
-
 
 using namespace myth52125;
 using namespace myth52125::net;
@@ -38,7 +36,6 @@ void Acceptor::handleRead()
         }else{
             socket::close(con);
         }
-
     }else{
 
     }
