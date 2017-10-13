@@ -1,16 +1,16 @@
-#include <codebase/base/Thread.h>
-#include <codebase/base/Timestamp.h>
+#include <codebase/base/EveryThread.h>
+#include <codebase/base/MutexLock.h>
+
 #include <iostream>
 #include <unistd.h>
 using namespace myth52125::base;
-void fun()
-{
-    std::cout<<"func"<<std::endl;
-}
+using namespace std;
+
 int main()
 {
-    TimeSpend time;
-    Thread t(fun);
-    t.start();
-    sleep(1);
+    MutexLock lock;
+    MutexLockGuard hhah(lock);
+    
+    cout<<gettid()<<endl;
 }
+
