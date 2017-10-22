@@ -5,12 +5,11 @@
 
 namespace myth52125
 {
-namespace base
+namespace thread
 {
 
 __thread pid_t g_thread_tid=-1;
 __thread  char g_thread_name[32]="None";
-
 
 //syscall系统调用获取线程的tid
 pid_t gettid()

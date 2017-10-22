@@ -1,13 +1,13 @@
 #ifndef MYTH52125_CONDITION_H
-
 #define MYTH52125_CONDITION_H
 
-
-
 #include <pthread.h>
+
 #include <codebase/base/MutexLock.h>
 
 namespace myth52125
+{
+namespace base
 {
 
 
@@ -15,9 +15,9 @@ class Condition
 {
 public:
     explicit Condition(MutexLock &mutex)
-    :mq_mutex(mutex)
+        :mq_mutex(mutex)
     {
-        pthread_cond_init(&m_cond);
+        pthread_cond_init(&m_cond,NULL);
     }
     ~Condition()
     {
@@ -43,6 +43,7 @@ public:
     }
 };
 
+}
 }
 
 #endif  //MYTH52125_CONDITION_H 

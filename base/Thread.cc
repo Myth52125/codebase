@@ -1,60 +1,82 @@
 #include <codebase/base/EveryThread.h>
 #include <codebase/base/StrArg.h>
-#include <codebase/base/EveryThread.h>
+#include <codebase/base/Thread.h>
+#include <sys/prctl.h>
+#include <pthread.h>
+namespace myth52125
+{
 
 namespace auxiliary
 {
+using namespace base;
 
 struct ThreadData
 {
-    typedef myth52125::Thread::ThreadFunc ThreadFunc;
+    typedef Thread::ThreadFunc ThreadFunc;
     
-    ThreadData(const ThreadFunc &func,const StrArg &name,pid_t *tid)
-        :mq_func(func),m_thread_name(name),mp_tid(tid)
+    ThreadData(const ThreadFunc &func,const StrArg &name,pid_t *tid,Condition *cond)
+        :mq_func(func),m_thread_name(name),mp_tid(tid),mp_cond(cond)
     {
     }
 
-    ThreadData mq_func;
+    ThreadFunc mq_func;
     StrArg m_thread_name;
     pid_t* mp_tid;
-
+    Condition *mp_cond;
     void run()
     {
-        *mp_tid = EveryThread::gettid();
+        *mp_tid = myth52125::thread::gettid();
         ::prctl(PR_SET_NAME, m_thread_name.c_str());
 
-        strcpy(myth52125::EveryThread::g_thread_name,
+        strcpy(myth52125::thread::g_thread_name,
             m_thread_name.c_str());
         
-        g_thread_tid = *mp_tid;
-
+        myth52125::thread::g_thread_tid = *mp_tid;
+        mp_cond->notify();
         try
         {
             mq_func();
         }
-        catch
+        catch(...)
         {
             //
         }
     }
-}
+};
 
-void *send_to_thread(void *arg)
+void *run_in_thread(void *arg)
 {
-    ThreadData *arg=static_cast<ThreadData *>(arg);
+    ThreadData *data=static_cast<ThreadData *>(arg);
     data->run();
     delete data;
     return NULL;
 }
 
 }
+}
 
 
 using namespace myth52125;
+using namespace myth52125::base;
+
 
 Thread::Thread(const ThreadFunc& func,const StrArg& name)
-    :m_func(func),m_thread_name(name)
+    :m_func(func),m_thread_name(name),m_mutex(),m_cond(m_mutex)
 {
     
+}
+void Thread::start()
+{
+    auxiliary::ThreadData *data
+        =new auxiliary::ThreadData(m_func,m_thread_name,&m_tid,&m_cond);
+    mb_started = true;
+    int ret = ::pthread_create(&m_pthread,NULL,auxiliary::run_in_thread,data);
+    if(ret != 0)
+    {
+        mb_started = false;
+        delete data;
+    }else{
+        m_cond.wait();
+    }
 }
 

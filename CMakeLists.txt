@@ -1,7 +1,7 @@
 aux_source_directory(. DIR_TEST_SRCS)
 ADD_SUBDIRECTORY(base)
 # ADD_SUBDIRECTORY(net)
-
+add_compile_options(-std=c++11 -g)
 INCLUDE_DIRECTORIES(./ ./base ./net ../ ../net/poller)
 ADD_EXECUTABLE(test ${DIR_TEST_SRCS})
 TARGET_LINK_LIBRARIES(test myth52125_base)

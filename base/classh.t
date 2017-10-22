@@ -1,4 +1,4 @@
-#ifndef _MYTH52125_ _H_
+#ifndef _MYTH52125__H_
 #define 
 
 #include <codebase/base/>
@@ -24,4 +24,4 @@ public:
 
 }
 
-#enfif
+#endif

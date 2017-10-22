@@ -5,7 +5,7 @@
 
 namespace myth52125
 {
-namespace base
+namespace thread
 {
 
 extern __thread pid_t g_thread_tid;

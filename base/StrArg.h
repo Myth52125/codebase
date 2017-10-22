@@ -4,6 +4,7 @@
 #include <string>
 #include <string.h>
 #include <cassert>
+#include <algorithm>
 namespace myth52125
 {
 
@@ -53,11 +54,12 @@ public:
 
     void swap(StrArg& rhs)
     {
-        //需要相等才能交换
-        assert(size() != rhs.size());
-        StrArg tmp_str(mp_data);
-        strcpy(mp_data,rhs.mp_data);
-        strcpy(rhs.mp_data,tmp_str.c_str());
+        // //需要相等才能交换
+        // assert(size() != rhs.size());
+        // StrArg tmp_str(mp_data);
+        // strcpy(mp_data,rhs.mp_data);
+        // strcpy(rhs.mp_data,tmp_str.c_str());
+        std::swap(mp_data,rhs.mp_data);
     }
 };
 
