@@ -8,8 +8,8 @@ namespace myth52125
 namespace base
 {
 
-extern __thread pid_t _threadTid;
-extern __thread char _threadName[32];
+extern __thread pid_t g_thread_tid;
+extern __thread char g_thread_name[32];
 
 pid_t gettid();
 

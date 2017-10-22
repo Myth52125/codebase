@@ -8,8 +8,8 @@ namespace myth52125
 namespace base
 {
 
-__thread pid_t _threadTid=-1;
-__thread  char _threadName[32]="None";
+__thread pid_t g_thread_tid=-1;
+__thread  char g_thread_name[32]="None";
 
 
 //syscall系统调用获取线程的tid
