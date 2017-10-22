@@ -28,6 +28,7 @@ struct ThreadData
         *mp_tid = myth52125::thread::gettid();
         ::prctl(PR_SET_NAME, m_thread_name.c_str());
 
+        
         strcpy(myth52125::thread::g_thread_name,
             m_thread_name.c_str());
         
@@ -61,12 +62,23 @@ using namespace myth52125::base;
 
 
 Thread::Thread(const ThreadFunc& func,const StrArg& name)
-    :m_func(func),m_thread_name(name),m_mutex(),m_cond(m_mutex)
+    :m_func(func),m_thread_name(name),m_mutex(),m_cond(m_mutex),
+    mb_started(false),mb_joined(false)
 {
     
 }
+
+Thread::~Thread()
+{
+    if(mb_started && !mb_joined )
+    {
+        pthread_detach(m_pthread);
+    }
+}
+
 void Thread::start()
 {
+    assert(!mb_started);
     auxiliary::ThreadData *data
         =new auxiliary::ThreadData(m_func,m_thread_name,&m_tid,&m_cond);
     mb_started = true;
@@ -80,3 +92,20 @@ void Thread::start()
     }
 }
 
+void Thread::join()
+{
+    assert(mb_started);
+    assert(!mb_joined);
+    mb_joined =true;
+    pthread_join(m_pthread,NULL);
+}
+
+const StrArg &Thread::name() const  
+{
+    return m_thread_name;
+}
+
+pid_t Thread::tid()
+{
+    return m_tid;
+}

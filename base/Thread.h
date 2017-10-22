@@ -18,7 +18,8 @@ class Thread
 {
 public: 
     typedef std::function<void ()> ThreadFunc;
-    explicit Thread(const ThreadFunc&,const StrArg& = StrArg("No name"));
+    explicit Thread(const ThreadFunc&,const StrArg& = StrArg("No Name"));
+    ~Thread();
 private:
     ThreadFunc m_func;
     pid_t m_tid;
@@ -26,12 +27,15 @@ private:
     pthread_t m_pthread;
 
     bool mb_started;
+    bool mb_joined;
     Condition m_cond;
     MutexLock m_mutex;
 
 public:
     void start();
-
+    void join();
+    const StrArg& name() const;
+    pid_t tid();
 
 };
 

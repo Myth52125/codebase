@@ -14,7 +14,8 @@ __thread  char g_thread_name[32]="None";
 //syscall系统调用获取线程的tid
 pid_t gettid()
 {
-    return static_cast<pid_t>(::syscall(SYS_gettid));
+    g_thread_tid=static_cast<pid_t>(::syscall(SYS_gettid));
+    return g_thread_tid;
 }
 
 }

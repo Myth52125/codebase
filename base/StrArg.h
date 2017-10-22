@@ -5,6 +5,8 @@
 #include <string.h>
 #include <cassert>
 #include <algorithm>
+
+
 namespace myth52125
 {
 
@@ -23,10 +25,15 @@ public:
     {
         strcpy(mp_data,str.c_str());
     }
-    StrArg(const char *str)
+    explicit StrArg(const char *str)
         :mp_data(new char[strlen(str)+1])
     {
         strcpy(mp_data,str);
+    }
+    explicit StrArg(const StrArg& str)
+        :mp_data(new char[str.size()+1])
+    {
+        strcpy(mp_data,str.c_str());
     }
     ~StrArg()
     {
@@ -36,7 +43,7 @@ private:
     char *mp_data;
 
 public:
-    char *c_str() const
+    const char *c_str() const
     {
         return mp_data;
     }
@@ -47,19 +54,18 @@ public:
     }
 
     StrArg& operator=(StrArg rhs)
-    {
+    {   
         swap(rhs);
         return *this;
     }
 
     void swap(StrArg& rhs)
     {
-        // //需要相等才能交换
-        // assert(size() != rhs.size());
-        // StrArg tmp_str(mp_data);
-        // strcpy(mp_data,rhs.mp_data);
-        // strcpy(rhs.mp_data,tmp_str.c_str());
         std::swap(mp_data,rhs.mp_data);
+    }
+    bool empty()
+    {
+        return size() == 1;
     }
 };
 

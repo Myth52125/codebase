@@ -9,12 +9,15 @@ using namespace myth52125::thread;
 
 using namespace std;
 
-// extern char g_thread_name[32];
+extern __thread char myth52125::thread::g_thread_name[32];
+extern __thread pid_t myth52125::thread::g_thread_tid;
+
+
 
 void func()
 {
-    // cout<<g_thread_name<<endl;
-    cout<<"000"<<endl;
+    cout<<g_thread_name<<" "<<g_thread_tid<<endl;
+    cout<<"new threadd run"<<endl;
 }
 
 int main()
@@ -27,9 +30,7 @@ int main()
     Thread t(func);
     t.start();
 
+    t.join();
 
-    
-    cout<<"endl"<<endl;
-    sleep(1000);
 }
 
