@@ -10,29 +10,38 @@ namespace myth52125
 class Timestamp
 {
 public:
-    Timestamp()
-        :
-    {
-
-    }
+    Timestamp();
     Timestamp(int64_t);
-    Rimestamp(time_t)
+    Timestamp(time_t);
 
 private:
-    int64_t mircrosecond;
+    int64_t m_microsecond;
     int64_t now();
 
 public:
     // void swap();
     StrArg to_string();
-    
     bool valid();
-    
-    int64_t m_microsecond();
+    int64_t microsecond();
 
-    static const int second_to_microsecond;
-
+    static const int s_second_to_microsecond;
 };
+
+
+inline bool operator==(Timestamp lhs,Timestamp rhs)
+{
+    return lhs.microsecond()==rhs.microsecond;
+}
+
+inline bool operator<(Timestamp lhs,Timestamp rhs)
+{
+    return lhs.microsecond()<rhs.microsecond;
+    
+}
+inline bool operator>(Timestamp lhs,Timestamp rhs)
+{
+    return lhs.microsecond()>rhs.microsecond;
+}
 
 }
 

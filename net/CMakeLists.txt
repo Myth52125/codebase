@@ -1,0 +1,5 @@
+aux_source_directory(. DIR_BASE_SRCS)
+INCLUDE_DIRECTORIES(../../)
+add_compile_options(-std=c++11 -g)
+ADD_LIBRARY(myth52125_net ${DIR_BASE_SRCS})
+target_link_libraries(myth52125_net pthread)

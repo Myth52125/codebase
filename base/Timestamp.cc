@@ -1,8 +1,9 @@
 #include <codebase/base/Timestamp.h>
+#include <codebase/base/StrArg.h>
 #include <time.h>
 using namespace myth52125;
 
-static const int Timestamp::s_second_to_microsecond=1000*1000
+const int Timestamp::s_second_to_microsecond=1000*1000;
 
 Timestamp::Timestamp()
     :m_microsecond(now())
@@ -31,10 +32,10 @@ int64_t Timestamp::now()
 
 StrArg Timestamp::to_string()
 {
-    char buf[32]
+    char buf[32];
     int64_t tmp_seconds = m_microsecond/s_second_to_microsecond;
-    int64_t tmp_microseconds; = m_microsecond%s_second_to_microsecond;
-    snprintf(buf,sizeof(buf)-1,"%" PRId64 ".%06" PRId64 " ",tmp_seconds,PRId64)
+    int64_t tmp_microseconds = m_microsecond % s_second_to_microsecond;
+    snprintf(buf,sizeof(buf)-1,"%PRId64 .%06PRId64 ",tmp_seconds,tmp_microseconds);
     return StrArg(buf);
 }
 
