@@ -2,7 +2,7 @@
 #define _MYTH52125_TIMESTAMP_H_
 
 #include <codebase/base/StrArg.h>
-#include <time.h>
+#include <string.h>
 namespace myth52125
 {
 
@@ -12,7 +12,7 @@ class Timestamp
 public:
     Timestamp();
     Timestamp(int64_t);
-    Timestamp(time_t);
+    // Timestamp(time_t);
 
 private:
     int64_t m_microsecond;
@@ -20,7 +20,7 @@ private:
 
 public:
     // void swap();
-    StrArg to_string();
+    string to_string();
     bool valid();
     int64_t microsecond();
 
@@ -30,17 +30,17 @@ public:
 
 inline bool operator==(Timestamp lhs,Timestamp rhs)
 {
-    return lhs.microsecond()==rhs.microsecond;
+    return lhs.microsecond()==rhs.microsecond();
 }
 
 inline bool operator<(Timestamp lhs,Timestamp rhs)
 {
-    return lhs.microsecond()<rhs.microsecond;
+    return lhs.microsecond()<rhs.microsecond();
     
 }
 inline bool operator>(Timestamp lhs,Timestamp rhs)
 {
-    return lhs.microsecond()>rhs.microsecond;
+    return lhs.microsecond()>rhs.microsecond();
 }
 
 }
