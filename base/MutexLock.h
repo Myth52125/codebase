@@ -16,8 +16,8 @@ public:
     MutexLock();
     ~MutexLock();
 private:
-    pid_t _threadtid;
-    pthread_mutex_t _mutex;
+    pid_t m_threadtid;
+    pthread_mutex_t m_mutex;
 public:
     void lock();
     void unlock();
@@ -31,7 +31,7 @@ public:
     MutexLockGuard(MutexLock &);
     ~MutexLockGuard();
 private:
-    MutexLock &_mutex;
+    MutexLock &mq_mutex;
 };
 }
 }

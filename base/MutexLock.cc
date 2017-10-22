@@ -6,31 +6,31 @@ using namespace myth52125;
 using namespace myth52125::base;
 
 MutexLock::MutexLock()
-    :_threadtid(gettid())
+    :m_threadtid(gettid())
 {
-    pthread_mutex_init(&_mutex,NULL);
+    pthread_mutex_init(&m_mutex,NULL);
 }
 MutexLock::~MutexLock()
 {
-    pthread_mutex_destroy(&_mutex);
+    pthread_mutex_destroy(&m_mutex);
 }
 void MutexLock::lock()
 {
-    pthread_mutex_lock(&_mutex);
+    pthread_mutex_lock(&m_mutex);
 }
 void MutexLock::unlock()
 {
     //为沙assert(),可能存在不同线程解锁？    
-    assert(_threadtid == gettid());
-    pthread_mutex_unlock(&_mutex);
+    assert(m_threadtid == gettid());
+    pthread_mutex_unlock(&m_mutex);
 }
 
 MutexLockGuard::MutexLockGuard(MutexLock &mutex)
-    :_mutex(mutex)
+    :mq_mutex(mutex)
 {
-    _mutex.lock();
+    mq_mutex.lock();
 }
 MutexLockGuard::~MutexLockGuard()
 {
-    _mutex.unlock();
+    mq_mutex.unlock();
 }
