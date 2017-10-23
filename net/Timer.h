@@ -3,7 +3,7 @@
 
 // #include <codebase/net/>
 #include <functional>
-#include <codebase/net/Timerstamp.h>
+#include <codebase/base/Timestamp.h>
 namespace myth52125
 {
 
@@ -29,7 +29,7 @@ public:
 
 private:
     const TimerCallback m_callback;
-    Timerstamp m_expiration;
+    Timestamp m_expiration;
     const int64_t m_interval;
     bool mb_repeat;
 

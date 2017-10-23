@@ -46,7 +46,7 @@ public:
         return it != mc_channels.end() && it->second == channel;
     }
     
-    static Poller* setPoller(EventLoop *);
+    static Poller* setPoller(EventLoop *,int poll_type = POLL);
 
 };
 }

@@ -25,7 +25,8 @@ private:
 
     int m_wakeup_fd;
     Channel* mp_wakeup_channel;
-    Function wakeup_channel_read_cb();
+    void wakeup_channel_read();
+    void wakeup_channel_wakeup();
     bool mb_looping;
     bool mb_quit;
     bool mb_in_handle;

@@ -1,6 +1,7 @@
 #ifndef _MYTH52125_SOCKFUNC_H_
 #define _MYTH52125_SOCKFUNC_H_
 
+#include <netinet/in.h>
 #include <arpa/inet.h>
 
 namespace myth52125
@@ -10,7 +11,7 @@ namespace net
 namespace socket
 {
 
-int nonblock_fd(sa_family family);
+int nonblock_fd(sa_family_t family);
 int connect(int sockfd,const struct sockaddr *addr);
 void bind(int sockfd,const struct sockaddr* addr);
 void listenint(int sockfd);

@@ -39,9 +39,9 @@ private:
     bool mb_in_handle;
 
     void update();
-    EventLoop *loop();
 public:
     void remove();
+    EventLoop *loop();
     
     void handle_event(Timestamp);
 
@@ -69,11 +69,11 @@ public:
         m_events=event;
     }
 
-    int revent()
+    int revents()
     {
         return m_revents;
     }
-    void revent(int revent)
+    void revents(int revent)
     {
         m_revents = revent;
     }

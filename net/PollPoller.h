@@ -4,6 +4,7 @@
 #include <codebase/net/Poller.h>
 #include <vector>
 #include <codebase/base/Timestamp.h>
+#include <sys/poll.h> 
 
 namespace myth52125
 {
@@ -11,7 +12,7 @@ namespace net
 {
 
 class EventLoop;
-struct pollfd;
+// struct pollfd;
 class PollPoller : public Poller
 {
 public:

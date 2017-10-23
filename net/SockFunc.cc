@@ -1,48 +1,55 @@
 #include <codebase/net/SockFunc.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <stdio.h>  // snprintf
+#include <strings.h>  // bzero
+#include <sys/socket.h>
+#include <unistd.h>
+// #include <boost/implicit_cast.hpp>
 
 namespace myth52125
 {
 namespace net
 {
-namespace socket_error
+namespace socket
 {
 
 
 const struct sockaddr *sockaddr_cast(const struct sockaddr_in *addr)
 {
-    return static_cast<const struct sockaddr*>(implicit_cast<const void*>(addr));
+    return static_cast<const struct sockaddr*>(reinterpret_cast<const void*>(addr));
 }
 const struct sockaddr *sockaddr_cast(const struct sockaddr_in6 *addr)
 {
-    return static_cast<struct sockaddr*>(implicit_cast<void*>(addr));
+    return static_cast<const struct sockaddr*>(reinterpret_cast<const void*>(addr));
 }
-struct sockaddr *sockaddr_cast(struct sockadd_in *addr)
+struct sockaddr *sockaddr_cast(struct sockaddr_in *addr)
 {
-    return static_cast<const struct sockaddr*>(implicit_cast<const void*>(addr));
+    return static_cast<struct sockaddr*>(reinterpret_cast<void*>(addr));
 }
 
 const struct sockaddr_in *scokaddr_in_cast(const struct sockaddr* addr)
 {
-    return static_cast<const struct sockaddr_in*>(implicit_cast<const void*>(addr));
+    return static_cast<const struct sockaddr_in*>(reinterpret_cast<const void*>(addr));
 }
 
 
 
 
 
-int nonblock_fd(sa_family family)
+int nonblock_fd(sa_family_t family)
 {
     int sockfd=::socket(family,SOCK_STREAM,IPPROTO_TCP);
     return sockfd;
 }
 int connect(int sockfd,const struct sockaddr *addr)
 {
-    int ret = ::connect(sockfd,addr,static_cast<socklen_t>(sizeof(struct sockaddr_in));
+    int ret = ::connect(sockfd,addr,static_cast<socklen_t>(sizeof(struct sockaddr_in)));
     return ret;
 }
 void bind(int sockfd,const struct sockaddr* addr)
 {
-    int ret = ::bind(sockfd,addr,static_cast<socklen_t>(sizeof(sockaddr_in));
+    int ret = ::bind(sockfd,addr,static_cast<socklen_t>(sizeof(sockaddr_in)));
 
 }
 void listen(int sockfd)
@@ -50,9 +57,9 @@ void listen(int sockfd)
     int ret = ::listen(sockfd,SOMAXCONN);
 }
 
-int accept(int sockfd,struct sockaddr *addr)
+int accept(int sockfd,struct sockaddr_in *addr)
 {
-    socklen_t len = static_cast<socklen_t>(sizeof(*addr));
+    socklen_t socklen = static_cast<socklen_t>(sizeof(*addr));
     int connfd = ::accept4(sockfd,sockaddr_cast(addr),
         &socklen,SOCK_NONBLOCK | SOCK_CLOEXEC);
 
