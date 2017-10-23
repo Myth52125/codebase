@@ -2,6 +2,10 @@
 #include <codebase/net/Channel.h>
 #include <sys/eventfd.h>
 #include <functional>
+#include <codebase/net/Poller.h>
+#include <codebase/net/PollPoller.h>
+#include <codebase/net/SockFunc.h>
+// #include <codebase/net/Poller.h>
 using namespace myth52125;
 using namespace net;
 
@@ -12,17 +16,12 @@ namespace auxiliary
 {
 __thread EventLoop* t_loop = NULL;
 
-
 int create_eventfd()
 {
-    int eventfd = ::eventfd(0,EFD_NONBLOCK｜EFD_CLOEXEC);
-
+    int eventfd = ::eventfd(0,EFD_NONBLOCK | EFD_CLOEXEC);
     return eventfd;
+    
 }
-
-
-
-
 }
 }
 
@@ -31,7 +30,7 @@ using namespace myth52125::net;
 
 
 EventLoop::EventLoop()
-    :m_wakeup_fd(auxiliary::create_eventfd()),mp_poller(/**/)
+    :m_wakeup_fd(auxiliary::create_eventfd()),mp_poller(Poller::setPoller(this)),
     mb_in_handle(false),mb_looping(false),
     mp_wakeup_channel(new Channel(this,m_wakeup_fd))
 {

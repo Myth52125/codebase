@@ -3,11 +3,11 @@
 
 // #include <codebase/net/>
 
-#include <vecotr>
+#include <vector>
 #include <map>
 #include <codebase/net/EventLoop.h>
 #include <iterator>
-
+#include <codebase/net/Channel.h>
 namespace myth52125
 {
 
@@ -38,11 +38,11 @@ protected:
 
 public:
     virtual Timestamp poll(int timeout_ms,ChannelList *) =0;
-    virtual update_channel(Channel *) = 0;
-    virtual remove_channel(Channel *)= 0;
-    virtual has_channel(Channel *) const
+    virtual void update_channel(Channel *) = 0;
+    virtual void remove_channel(Channel *)= 0;
+    virtual bool has_channel(Channel *channel) const
     {
-        ChannelMap::iterator it=mc_channels.find(channel->fd());
+        ChannelMap::const_iterator it=mc_channels.find(channel->fd());
         return it != mc_channels.end() && it->second == channel;
     }
     

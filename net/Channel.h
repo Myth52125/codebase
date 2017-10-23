@@ -1,7 +1,7 @@
 #ifndef _MYTH52125_CHANNEL_H_
 #define _MYTH52125_CHANNEL_H_
 
-#include <codebase/net/>
+// #include <codebase/net/>
 #include <functional>
 #include <codebase/base/Timestamp.h>
 namespace myth52125
@@ -39,10 +39,10 @@ private:
     bool mb_in_handle;
 
     void update();
-    void remove();
     EventLoop *loop();
 public:
-
+    void remove();
+    
     void handle_event(Timestamp);
 
     int fd()
@@ -116,7 +116,6 @@ public:
     {
         m_error_cb=cb;
     }
-
 };
 
 }

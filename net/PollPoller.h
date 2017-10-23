@@ -7,13 +7,15 @@
 
 namespace myth52125
 {
+namespace net
+{
 
 class EventLoop;
 struct pollfd;
 class PollPoller : public Poller
 {
 public:
-    typedef std::vector<Channel *> ChannelList
+    typedef std::vector<Channel *> ChannelList;
     PollPoller(EventLoop *);
     virtual ~PollPoller() override;
 private:
@@ -22,11 +24,12 @@ private:
     
     void fill_ready_vecetor(int num,ChannelList*);
 public:
-    virtual poll(int timeout_ms,ChannelList* ready_channels) override;
+    virtual Timestamp poll(int timeout_ms,ChannelList* ready_channels) override;
     virtual void update_channel(Channel *channel) override;
     virtual void remove_channel(Channel *channel) override;
 };
 
+}
 }
 
 #endif  //_MYTH52125_POLLPOLLER_H_
