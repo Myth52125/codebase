@@ -17,7 +17,7 @@ class EventLoopThread
 {
 public:
     typedef std::function<void (EventLoop *)> ThreadCBFunc;
-    EventLoopThread(const ThreadCBFunc &,const StrArg &name);
+    EventLoopThread(const ThreadCBFunc &func=ThreadCBFunc(),const StrArg &name=StrArg("No name"));
     ~EventLoopThread();
 
 private:
