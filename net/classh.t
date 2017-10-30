@@ -1,4 +1,4 @@
-#ifndef _MYTH52125__H_
+#ifndef MYTH52125__H
 #define 
 
 #include <codebase/net/>
