@@ -11,6 +11,7 @@ namespace myth52125
 {
 namespace net
 {
+using namespace myth52125::base;
 
 class EventLoop;
 class EventLoopThread
@@ -28,7 +29,8 @@ private:
     Condition m_cond;
     bool mb_exit;
     bool mb_start;
-    void threadFunc();
+    void threadfunc();
+    
 public:
     EventLoop *start();
 

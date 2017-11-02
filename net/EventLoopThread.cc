@@ -8,7 +8,7 @@ using namespace myth52125::base;
 
 
 EventLoopThread::EventLoopThread(const ThreadCBFunc &func,const StrArg &name)
-    :mp_loop(NULL),mb_exit(fasle),mb_start(false),
+    :mp_loop(NULL),mb_exit(false),mb_start(false),
     m_thread(std::bind(&EventLoopThread::threadfunc,this),name),
     m_mutex(),m_cond(m_mutex),mq_cb(func)
 {
@@ -34,7 +34,7 @@ EventLoop *EventLoopThread::start()
         MutexLockGuard look(m_mutex);
         while(mp_loop == NULL)
         {
-            cond.wait();
+            m_cond.wait();
         }
     }
     return mp_loop;
